@@ -3,78 +3,83 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Contact Form</title>
+    <title>Superhero Form</title>
+    <style>
+      body,
+      html {
+        background-image: url("https://t3.ftcdn.net/jpg/04/88/68/34/360_F_488683482_iblhGrGuWT5sDcawyMKcKax2KRnrxF3k.jpg");
+        display: flex;
+        justify-content: center;
+      }
+      div.container {
+        width: 60%;
+        border-radius: 10%;
+        background-color: rgba(255, 255, 255, 0.9);
+        text-align: center;
+      }
+    </style>
   </head>
   <body>
-    <h1>Contact Form</h1>
-    <form action="/submit-form" method="POST">
-      <label for="name">Name:</label>
-      <input type="text" id="name" name="name" required /><br /><br />
-      <label for="email">Email:</label>
-      <input type="email" id="email" name="email" required /><br /><br />
-      <label for="message">Message:</label><br />
-      <textarea
-        id="message"
-        name="message"
-        rows="4"
-        cols="50"
-        required
-      ></textarea
-      ><br /><br />
-      <input type="submit" value="Submit" />
-    </form>
+    <div class="container" style="margin: 10px; text-align: center">
+      <h1>Superhero Sign Up</h1>
+      <form action="submit-form" method="POST">
+        <label for="name">Superhero Name:</label>
+        <input type="text" id="name" name="name" required /><br /><br />
+        <label for="email">Superhero Powers:</label>
+        <input type="email" id="email" name="email" required /><br /><br />
+        <label for="message">Greatest Accomplishments:</label><br />
+        <textarea
+          id="message"
+          name="message"
+          rows="4"
+          cols="50"
+          required
+        ></textarea
+        ><br /><br />
+        <input type="submit" value="Submit" />
+      </form>
+    </div>
+    <div class="container" style="margin: 10px; text-align: center">
     <h1>User Management</h1>
+    <h2>Update User</h2>
     <form id="updateForm">
-      <label for="currentName">Current name:</label>
+      <label for="currentName">Current Superhero name:</label>
       <input type="text" id="currentName" required /><br /><br />
-      <label for="currentEmail">Current email:</label>
+      <label for="currentEmail">Current Superhero Prs:</label>
       <input type="email" id="currentEmail" required /><br /><br />
-      <label for="newName">New name:</label>
+      <label for="newName">New Superhero name:</label>
       <input type="text" id="newName" required /><br /><br />
-      <label for="newEmail">New email:</label>
+      <label for="newEmail">New Superhero Powers:</label>
       <input type="email" id="newEmail" required /><br /><br />
-      <button type="submit">Update User</button>
+      <button type="submit">Update Superhero</button>
     </form>
-    <h1>Show Users</h1>
-    <table id="usersTable">
-      <thead>
-        <tr>
-          <th>User Name</th>
-          <th>User Email</th>
-        </tr>
-      </thead>
-      <tbody id="userTableBody">
-        <!-- data of users will be rendered here -->
-      </tbody>
-    </table>
+  </div>
+  <div class="container" style="margin: 10px; text-align: center">
+    <h2>Delete User</h2>
+    <form id="delete-user">
+      <label for="delete-name">Superhero Name:</label>
+      <input type="text" id="delete-name" /> <BR/><BR/>
+      <label for="delete-email">Superhero Powers:</label>
+      <input type="text" id="delete-email" /> <BR/><BR/>
+      <button type="submit">Delete User</button>
+    </form>
+      </div>
+    <div style="margin: 10px" class="container">
+      <h1>Show Users</h1>
+      <table id="usersTable">
+        <thead>
+          <tr>
+            <th>Superhero Name</th>
+            <th>Superhero Powers</th>
+            <th>Greatest Accomplishments</th>
+          </tr>
+        </thead>
+        <tbody id="userTableBody">
+          <!-- data of users will be rendered here -->
+        </tbody>
+      </table>
+    </div>
     <script>
-      document
-        .getElementById("updateForm")
-        .addEventListener("submit", async (e) => {
-          e.preventDefault();
-          const currentName = document.getElementById("currentName").value;
-          const currentEmail = document.getElementById("currentEmail").value;
-          const newName = document.getElementById("newName").value;
-          const newEmail = document.getElementById("newEmail").value;
-          try {
-            const response = await fetch(
-              `/update-user/${currentName}/${currentEmail}`,
-              {
-                method: "PUT",
-                headers: {
-                  "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ newName, newEmail }),
-              }
-            );
-            const data = await response.json();
-            console.log(data);
-            renderUsers();
-            // alert("Message is: " + data.message);
-          } catch (error) {
-            alert("Error updating user: " + error.message);
-          }
-        });
       async function fetchUsers() {
         try {
           const response = await fetch("/users");
@@ -100,7 +105,7 @@
           const users = await fetchUsers();
           if (Array.isArray(users) && users.length > 0) {
             users.forEach((user) => {
-              const row = `<tr><td>${user.name}</td><td>${user.email}</td></tr>`;
+              const row = `<tr><td>${user.name}</td><td>${user.email}</td><td>${user.messages}</td></tr>`;
               tableBody.innerHTML += row;
             });
           }
